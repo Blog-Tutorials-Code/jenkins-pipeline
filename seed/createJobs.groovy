@@ -7,6 +7,9 @@ pipelineJob("simple-maven-app"){
             }
             
             scriptPath("pipeline-scripts/simple-maven-app.groovy")
+
+            //Blank configuration. Removes default git tagging.
+            extensions { }
         }
     }
 }

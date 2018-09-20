@@ -11,10 +11,6 @@ pipeline {
     stages {
         stage ("Verify Tooling"){
             steps {
-                // Configure git info
-                sh 'git config --global user.email "jenkins@host.com"'
-                sh 'git config --global user.name "jenkins"'
-
                 sh "java -version"
                 sh "mvn -version"
                 sh "gcloud version"
