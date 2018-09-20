@@ -24,17 +24,17 @@ pipeline {
             }
         }
 
-        stage ("Docker Build"){
-            steps {
+        // stage ("Docker Build"){
+        //     steps {
 
-            }
-        }
+        //     }
+        // }
 
-        stage ("Deploy to GCP"){
-            steps {
-                
-            }
-        }
+        // stage ("Deploy to GCP"){
+        //     steps {
+
+        //     }
+        // }
 
     }
 }
