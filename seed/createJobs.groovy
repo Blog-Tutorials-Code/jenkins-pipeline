@@ -3,13 +3,18 @@ pipelineJob("simple-maven-app"){
     definition {
         cpsScm {
             scm {
-                git("https://github.com/Blog-Tutorials-Code/jenkins-pipeline", "master")
+                git {
+                    remote {"https://github.com/Blog-Tutorials-Code/jenkins-pipeline"}
+                    branch('master')
+                    //Blank configuration. Removes default git tagging.
+                    extensions { }
+                    
+                    //Look into cloneWorkspace to possibly be able to clone the app source code here.
+                }
             }
             
             scriptPath("pipeline-scripts/simple-maven-app.groovy")
 
-            //Blank configuration. Removes default git tagging.
-            extensions { }
         }
     }
 }
