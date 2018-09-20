@@ -1,10 +1,5 @@
 pipelineJob("simple-maven-app"){
 
-    // Pass the job these variables
-    parameters {
-        stringParam(name = "GIT_REPO_URL", defaultValue = "https://github.com/FerdinandYeboah/simple-java-maven-app", description = "URL of git repo to checkout") 
-    }
-
     //Run the job on github changes
     triggers {
 

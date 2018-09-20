@@ -1,4 +1,10 @@
 pipeline {
+
+    // Pass the job these variables
+    parameters {
+        string(name: "GIT_REPO_URL", defaultValue: "https://github.com/FerdinandYeboah/simple-java-maven-app", description: "URL of git repo to checkout")
+    }
+
     agent {
         docker {
             // NOTE: May need a "docker login" to access dockerhub images
