@@ -1,7 +1,3 @@
-// Configure git info
-sh 'git config --global user.email "jenkins@host.com"'
-sh 'git config --global user.name "jenkins"'
-
 pipelineJob("simple-maven-app"){
     
     definition {
