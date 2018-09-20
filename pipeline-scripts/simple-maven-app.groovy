@@ -18,5 +18,19 @@ pipeline {
             }
         }
 
+        stage ("Checkout Source Code"){
+            steps {
+                echo "GIT REPO URL: ${params.GIT_REPO_URL}"
+            }
+        }
+
+        stage ("Docker Build"){
+
+        }
+
+        stage ("Deploy to GCP"){
+
+        }
+
     }
 }
