@@ -25,11 +25,15 @@ pipeline {
         }
 
         stage ("Docker Build"){
+            steps {
 
+            }
         }
 
         stage ("Deploy to GCP"){
-
+            steps {
+                
+            }
         }
 
     }
