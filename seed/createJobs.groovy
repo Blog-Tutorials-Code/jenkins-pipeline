@@ -4,7 +4,10 @@ pipelineJob("simple-maven-app"){
         cpsScm {
             scm {
                 git {
-                    remote {"https://github.com/Blog-Tutorials-Code/jenkins-pipeline"}
+                    remote {
+                    	url("https://github.com/Blog-Tutorials-Code/jenkins-pipeline")
+                    }
+                    
                     branch('master')
                     //Blank configuration. Removes default git tagging.
                     extensions { }
