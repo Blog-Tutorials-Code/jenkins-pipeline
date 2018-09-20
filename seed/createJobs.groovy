@@ -3,10 +3,10 @@ pipelineJob("simple-maven-app"){
     definition {
         cpsScm {
             scm {
-            	github("FerdinandYeboah/simple-java-maven-app", "master")
+            	github("Blog-Tutorials-Code/jenkins-pipeline", "master")
             }
             
-            scriptPath("jenkins/Jenkinsfile")
+            scriptPath("pipeline-scripts/simple-maven-app.groovy")
         }
     }
 }
