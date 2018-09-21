@@ -23,6 +23,11 @@ pipeline {
 
     stages {
         stage ("Verify & Configure Tooling"){
+
+            environment {
+                GCLOUD_SERVICE_ACCOUNT_KEY = credentials("GCLOUD_SERVICE_KEY")
+            }
+
             steps {
                 sh "java -version"
                 sh "mvn -version"
@@ -30,7 +35,7 @@ pipeline {
                 sh "docker version"
 
                 // Configure the GCLOUD CLI
-                sh "gcloud auth activate-service-account --key-file $GCLOUD_SERVICE_KEY"
+                sh "gcloud auth activate-service-account --key-file $GCLOUD_SERVICE_ACCOUNT_KEY"
                 sh "gcloud config list" 
                 // sh "gcloud config set project ${REGION}" //
             }
