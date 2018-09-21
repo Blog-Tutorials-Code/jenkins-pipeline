@@ -59,12 +59,11 @@ pipeline {
 
         stage ("Push to Dockerhub"){
             environment {
-                DOCKER_HUB_USERNAME = credentials("DOCKER_HUB_LOGIN_USR")
-                DOCKER_HUB_PASSWORD = credentials("DOCKER_HUB_LOGIN_PSW")
+                DOCKER_HUB = credentials("DOCKER_HUB_LOGIN")
             }
 
             steps {
-                sh "docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
+                sh "docker login -u $DOCKER_HUB_USR -p $DOCKER_HUB_PSW"
                 sh "docker tag ${params.ARTIFACT_NAME} ferdinandyeboah/${params.ARTIFACT_NAME}" 
                 sh "docker push ferdinandyeboah/${params.ARTIFACT_NAME}" 
             }
