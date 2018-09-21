@@ -31,6 +31,7 @@ pipeline {
 
                 // Configure the GCLOUD CLI
                 sh "gcloud auth activate-service-account --key-file $GCLOUD_SERVICE_KEY"
+                sh "gcloud config list" 
                 // sh "gcloud config set project ${REGION}" //
             }
         }
