@@ -1,7 +1,8 @@
 // Some global variables I have to figure out the best place to put or read them from
 def GCLOUD_PROJECT = "sharp-terminal-215500"
-def REGION = "us-east1-b"
-def VM_INSTANCE = "spring-playground"
+def ZONE = "us-east1-b"
+def MACHINE_TYPE = "f1-micro"
+def ALLOW_TCP_8080_TAG = "allow-http-8080"
 
 pipeline {
 
@@ -9,7 +10,7 @@ pipeline {
     parameters {
         string(name: "GIT_REPO_URL", defaultValue: "https://github.com/Blog-Tutorials-Code/spring-playground", description: "URL of git repo to checkout")
         // Improvement: There really should not be an option to configure this. This should be extracted as the repo name from the git repo url.
-        string(name: "ARTIFACT_NAME", defaultValue: "spring-playground", description: "Name of docker image that will be created and versioned")
+        string(name: "ARTIFACT_NAME", defaultValue: "spring-playground", description: "Name of docker image and vm instance that will be created and versioned")
     }
 
     agent {
@@ -77,28 +78,32 @@ pipeline {
         // }
         
 
-        // stage ("Deploy to GCP"){
-        //     steps {
-        //         // Deploy. Don't forget to set project, necessary firewall rules etc. Maybe should use update-container since ALB already set on the spring-playground vm.
-        //         // I believe I have two options. Update the instance unmanaged group container, or update the vm instance directly. Had to create an instance group because of the LB.
-        //         // Update: The above is incorrect, I created an UNMANAGED instance group (not based on a template) so I have to update the instance directly
-        //         // What to do about first case where container not deployed and should be created and afterwards should be updated?
-        //         // LATER: DEPLOY all infrastructure as code (i.e ALB). Does google have something like AWS CloudFormation?
+        stage ("Deploy to GCP"){
+            steps {
+                //Try to deploy container. Update if it is already present.
+                script {
+                    try {
+                        sh "gcloud compute instances create-with-container ${params.ARTIFACT_NAME} \ 
+                        --container-image=ferdinandyeboah/${params.ARTIFACT_NAME} \
+                        --machine-type=${MACHINE_TYPE} \
+                        --zone=${ZONE} \
+                        --project=${GCLOUD_PROJECT}"
+                    } 
+                    catch (Exception e) { // Container already present, try update
+                        sh "gcloud compute instances update-container ${params.ARTIFACT_NAME} \ 
+                        --container-image=ferdinandyeboah/${params.ARTIFACT_NAME} \
+                        --zone=${ZONE} \
+                        --project=${GCLOUD_PROJECT}"
+                    }
+                }
 
-        //         //Seems like docker image must be remotely hosted. Cannot be on local machine and referenced in --container-image
-        //         sh " gcloud compute instances create-with-container [INSTANCE_NAME] \
-        //             --container-image [DOCKER_IMAGE]"
-
-        //         // Add appropiate firewall tags. Add the project flag as well
-        //         sh "gcloud compute instances add-tags [INSTANCE-NAME] \
-        //             --zone [ZONE] \
-        //             --tags [TAGS]"
-
-
-
-        //         //Could try catch and create-with-container if get an error then use update-with-container
-        //     }    
-        // }
+                //Add the correct firewall tags.
+                sh "gcloud compute instances add-tags ${params.ARTIFACT_NAME} \
+                    --zone ${ZONE} \
+                    --tags ${ALLOW_TCP_8080_TAG}"
+            }
+                
+        }
 
     }
 }
