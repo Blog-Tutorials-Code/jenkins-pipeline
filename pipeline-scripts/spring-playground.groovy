@@ -83,23 +83,23 @@ pipeline {
                 //Try to deploy container. Update if it is already present.
                 script {
                     try {
-                        sh "gcloud compute instances create-with-container ${params.ARTIFACT_NAME} \ 
-                        --container-image=ferdinandyeboah/${params.ARTIFACT_NAME} \
-                        --machine-type=${MACHINE_TYPE} \
-                        --zone=${ZONE} \
+                        sh "gcloud compute instances create-with-container ${params.ARTIFACT_NAME}  
+                        --container-image=ferdinandyeboah/${params.ARTIFACT_NAME} 
+                        --machine-type=${MACHINE_TYPE} 
+                        --zone=${ZONE} 
                         --project=${GCLOUD_PROJECT}"
                     } 
                     catch (Exception e) { // Container already present, try update
-                        sh "gcloud compute instances update-container ${params.ARTIFACT_NAME} \ 
-                        --container-image=ferdinandyeboah/${params.ARTIFACT_NAME} \
-                        --zone=${ZONE} \
+                        sh "gcloud compute instances update-container ${params.ARTIFACT_NAME}  
+                        --container-image=ferdinandyeboah/${params.ARTIFACT_NAME} 
+                        --zone=${ZONE} 
                         --project=${GCLOUD_PROJECT}"
                     }
                 }
 
                 //Add the correct firewall tags.
-                sh "gcloud compute instances add-tags ${params.ARTIFACT_NAME} \
-                    --zone ${ZONE} \
+                sh "gcloud compute instances add-tags ${params.ARTIFACT_NAME} 
+                    --zone ${ZONE} 
                     --tags ${ALLOW_TCP_8080_TAG}"
             }
                 
