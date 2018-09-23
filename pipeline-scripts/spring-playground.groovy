@@ -1,7 +1,7 @@
 // Some global variables I have to figure out the best place to put or read them from
 def GCLOUD_PROJECT = "sharp-terminal-215500"
 def ZONE = "us-east1-b"
-def MACHINE_TYPE = "f1-micro"
+def MACHINE_TYPE = "n1-standard-1" //Docker image currently too large (memory) for a f1 micro 
 def ALLOW_TCP_8080_TAG = "allow-http-8080"
 
 pipeline {
