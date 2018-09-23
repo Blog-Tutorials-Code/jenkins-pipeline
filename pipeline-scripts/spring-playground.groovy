@@ -88,6 +88,12 @@ pipeline {
                         --machine-type=${MACHINE_TYPE} \
                         --zone=${ZONE} \
                         --project=${GCLOUD_PROJECT}"""
+
+                        //Add the correct firewall tags.
+                        sh """gcloud compute instances add-tags ${params.ARTIFACT_NAME} \
+                            --zone ${ZONE} \
+                            --project=${GCLOUD_PROJECT} \
+                            --tags ${ALLOW_TCP_8080_TAG}"""
                     } 
                     catch (Exception e) { // Container already present, try update
                         sh """gcloud compute instances update-container ${params.ARTIFACT_NAME} \
@@ -97,10 +103,6 @@ pipeline {
                     }
                 }
 
-                //Add the correct firewall tags.
-                sh """gcloud compute instances add-tags ${params.ARTIFACT_NAME} \
-                    --zone ${ZONE} \
-                    --tags ${ALLOW_TCP_8080_TAG}"""
             }
                 
         }
