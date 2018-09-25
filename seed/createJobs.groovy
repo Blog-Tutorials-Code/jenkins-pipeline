@@ -31,7 +31,7 @@ pipelineJob("spring-playground"){
 
     //Run the job on github changes
     triggers {
-
+        githubPush()
     }
     
     definition {
